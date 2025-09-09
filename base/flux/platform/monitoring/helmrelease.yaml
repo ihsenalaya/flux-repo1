@@ -1,0 +1,70 @@
+# hr-kps.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      # Pointez une version adaptée à votre cluster (ex: >=60)
+      version: ">=65.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 1h
+  values:
+    # --- Prometheus ---
+    prometheus:
+      service:
+        type: ClusterIP        # ou LoadBalancer si vous devez exposer Prometheus
+      prometheusSpec:
+        replicas: 1
+        retention: 15d
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: managed-csi
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 50Gi
+
+    # --- Alertmanager ---
+    alertmanager:
+      enabled: true
+      service:
+        type: ClusterIP
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: managed-csi
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+
+    # --- Grafana ---
+    grafana:
+      enabled: true
+      adminUser: admin
+      adminPassword: "ChangezMoi!"
+      service:
+        type: LoadBalancer     # simple sur AKS ; sinon utilisez l’ingress ci-dessous
+        port: 80
+        targetPort: 3000
+      defaultDashboardsEnabled: true
+      # Pour Ingress, laissez service en ClusterIP et activez le fichier ingress-grafana.yaml
+
+    # Activer la collecte des composants Kubernetes
+    kubeApiServer: { enabled: true }
+    kubeControllerManager: { enabled: true }
+    kubeScheduler: { enabled: true }
+    kubeProxy: { enabled: true }
+    kubeEtcd: { enabled: true }
+    kubeStateMetrics: { enabled: true }
+    nodeExporter: { enabled: true }

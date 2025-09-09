@@ -1,0 +1,40 @@
+# On laisse Grafana & Prometheus en ClusterIP et on expose via l'Ingress "monitoring" 
+grafana: 
+  ingress: 
+    enabled: false 
+  adminPassword: "change-me-in-sops" 
+  service: 
+    type: ClusterIP 
+prometheus: 
+  service: 
+    type: ClusterIP 
+  prometheusSpec: 
+    retention: 15d 
+    serviceMonitorSelectorNilUsesHelmValues: false 
+    podMonitorSelectorNilUsesHelmValues: false 
+# Exemple Alertmanager (adapter selon besoins) 
+alertmanager: 
+  enabled: true 
+  ingress: 
+    enabled: false 
+  config: 
+    route: 
+      receiver: "default" 
+      group_by: ["alertname", "namespace"] 
+      group_wait: 30s 
+      group_interval: 5m 
+      repeat_interval: 12h 
+      routes: 
+        - matchers: 
+            - severity = critical 
+          receiver: "pager" 
+          continue: true 
+    receivers: 
+      - name: "default" 
+        webhook_configs: 
+          - url: "https://hooks.example.com/alerts" 
+      - name: "pager" 
+        slack_configs: 
+          - api_url: "https://hooks.slack.com/services/XXX/YYY/ZZZ" 
+            channel: "#oncall" 
+            send_resolved: true 

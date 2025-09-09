@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1 
+kind: Ingress 
+metadata: 
+  name: monitoring 
+  namespace: monitoring 
+  annotations: 
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure 
+spec: 
+  ingressClassName: traefik 
+  tls: 
+    - hosts: [ monitoring.staging.example.com ] 
+      secretName: monitoring-staging-tls 
+  rules: 
+    - host: monitoring.staging.example.com 
+      http: 
+        paths: 
+          - path: /grafana 
+            pathType: Prefix 
+            backend: 
+              service: 
+                name: kube-prometheus-stack-grafana 
+                port: 
+                  number: 80 
+          - path: /prometheus 
+            pathType: Prefix 
+            backend: 
+              service: 
+                name: kube-prometheus-stack-prometheus 
+                port: 
+                  number: 9090 
