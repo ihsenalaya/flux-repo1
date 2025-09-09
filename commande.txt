@@ -7,3 +7,10 @@ flux bootstrap github \
   --personal=true \
   --private=false \
   --components-extra="image-reflector-controller,image-automation-controller"
+
+  flux create kustomization infra-staging \
+  --namespace=flux-system \
+  --source=flux-system \
+  --path=./clusters/staging \
+  --prune=true --wait=true --interval=5m \
+  --export > clusters/staging/flux-system/infra.yaml
