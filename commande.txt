@@ -1,0 +1,9 @@
+flux bootstrap github \
+  --token-auth \
+  --owner=ihsenalaya \
+  --repository=Flux-repo1 \
+  --branch=master \
+  --path=clusters/staging/flux-system \
+  --personal=true \
+  --private=false \
+  --components-extra="image-reflector-controller,image-automation-controller"
