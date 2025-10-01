@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   - kustomizations/traefik.yaml 
   - kustomizations/monitoring.yaml 
+  - kustomizations/cert-manager.yaml
+  - kustomizations/external-dns.yaml
+  - kustomizations/external-secrets.yaml

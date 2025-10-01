@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: external-dns
+spec:
+  values:
+    txtOwnerId: "<staging-cluster-name>"
+    serviceAccount:
+      annotations:
+        azure.workload.identity/client-id: "<EXTERNAL_DNS_APP_CLIENT_ID>"  # App reg (federated)
+    env:
+      - name: AZURE_TENANT_ID
+        value: "<TENANT_ID>"
+      - name: AZURE_SUBSCRIPTION_ID
+        value: "<SUBSCRIPTION_ID>"
+      - name: AZURE_CLIENT_ID
+        value: "<EXTERNAL_DNS_APP_CLIENT_ID>"
+    extraArgs:
+      - --azure-resource-group=<DNS_ZONE_RESOURCE_GROUP>
+      # - --domain-filter=<example.com>   # optionnel si tu veux limiter
