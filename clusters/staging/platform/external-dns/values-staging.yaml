@@ -5,19 +5,11 @@ metadata:
   namespace: external-dns
 spec:
   values:
-    # Identifiant TXT unique par cluster pour éviter les conflits
-    txtOwnerId: "demo-aks-private"
-    fullnameOverride: external-dns
-    serviceAccount:
-      labels:
-        azure.workload.identity/use: "true"
-      annotations:
-        azure.workload.identity/client-id: "02b0b56c-99cc-4491-9f18-288b76702508"
-    # IMPORTANT: label sur le Pod (depuis WI >= 1.0.0, le label doit être sur le Pod)
+    # 🔒 Label WI sur le POD (obligatoire pour l’injection du jeton)
     podLabels:
       azure.workload.identity/use: "true"
 
-    # Monte le Secret contenant /etc/kubernetes/azure.json
+    # 🔧 Monte le Secret à /etc/kubernetes pour le fichier azure.json
     extraVolumes:
       - name: azure-config-file
         secret:
@@ -27,20 +19,17 @@ spec:
         mountPath: /etc/kubernetes
         readOnly: true
 
-    # Provider ExternalDNS (nouvelle convention du chart)
+    # (optionnel mais explicite) précise le chemin si tu veux :
+    extraArgs:
+      - --azure-config-file=/etc/kubernetes/azure.json
+      # - --domain-filter=<example.com>
+      # - --azure-use-private-dns
+
     provider:
       name: azure
     sources:
       - ingress
 
-    # Conserve quelques flags utiles
     registry: txt
     policy: sync
-
-    # (Optionnel) Si tu veux filtrer un domaine :
-    # extraArgs:
-    #   - --domain-filter=example.com
-
-    # (Optionnel) Si tu utilises Azure Private DNS :
-    # extraArgs:
-    #   - --azure-use-private-dns
+    txtOwnerId: "demo-aks-private"
