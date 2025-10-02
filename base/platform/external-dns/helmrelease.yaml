@@ -8,25 +8,23 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: ">=1.15.0"
+      version: ">=1.14.0"
       sourceRef:
         kind: HelmRepository
         name: external-dns
         namespace: flux-system
   install:
-    remediation:
-      retries: 3
+    timeout: 10m
+    remediation: { retries: 3 }
   upgrade:
-    remediation:
-      retries: 3
+    timeout: 10m
+    remediation: { retries: 3 }
   values:
-    sources: ["ingress"]
-    provider: azure
-    registry: txt
-    policy: sync
+    # IMPORTANT: on laisse le SA géré en overlay (Workload Identity)
     serviceAccount:
-      create: false         # ⬅️ change
-      name: external-dns    # ⬅️ use SA créé en overlay
-    extraArgs:
-      - --interval=1m
-      - --log-format=json
+      create: false
+      name: external-dns
+
+    # Provider (syntaxe recommandée par le chart)
+    provider:
+      name: azure  # (ancien "provider: azure" est déprécié)
