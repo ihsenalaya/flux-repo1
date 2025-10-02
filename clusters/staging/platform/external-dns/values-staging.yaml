@@ -6,8 +6,13 @@ metadata:
 spec:
   values:
     # Identifiant TXT unique par cluster pour éviter les conflits
-    txtOwnerId: "aks-staging-01"
-
+    txtOwnerId: "demo-aks-private"
+    fullnameOverride: external-dns
+    serviceAccount:
+      labels:
+        azure.workload.identity/use: "true"
+      annotations:
+        azure.workload.identity/client-id: "02b0b56c-99cc-4491-9f18-288b76702508"
     # IMPORTANT: label sur le Pod (depuis WI >= 1.0.0, le label doit être sur le Pod)
     podLabels:
       azure.workload.identity/use: "true"
