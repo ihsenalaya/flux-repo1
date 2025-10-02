@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../../../../base/platform/external-dns
   - sa.yaml                           # ⬅️ ajoute le SA
-  - secret-azure.json.yaml 
+  - secret-azure.yaml 
 patches:
   - path: values-staging.yaml
     target:
