@@ -8,14 +8,14 @@ spec:
     txtOwnerId: "<staging-cluster-name>"
     serviceAccount:
       annotations:
-        azure.workload.identity/client-id: "<EXTERNAL_DNS_APP_CLIENT_ID>"  # App reg (federated)
+        azure.workload.identity/client-id: "02b0b56c-99cc-4491-9f18-288b76702508"  # App reg (federated)
     env:
       - name: AZURE_TENANT_ID
-        value: "<TENANT_ID>"
+        value: "9ffc6712-5ed6-4651-9b81-51f454114654"
       - name: AZURE_SUBSCRIPTION_ID
-        value: "<SUBSCRIPTION_ID>"
-      - name: AZURE_CLIENT_ID
-        value: "<EXTERNAL_DNS_APP_CLIENT_ID>"
+        value: "ec0e829d-64e1-43fd-b721-ecf5b5112773"
+   #   - name: AZURE_CLIENT_ID
+    #    value: "<EXTERNAL_DNS_APP_CLIENT_ID>"
     extraArgs:
-      - --azure-resource-group=<DNS_ZONE_RESOURCE_GROUP>
+      - --azure-resource-group=ihsen
       # - --domain-filter=<example.com>   # optionnel si tu veux limiter
