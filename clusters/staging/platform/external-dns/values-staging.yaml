@@ -1,21 +1,41 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: external-dns
   namespace: external-dns
 spec:
   values:
-    txtOwnerId: "demo-aks-private"
-    serviceAccount:
-      annotations:
-        azure.workload.identity/client-id: "02b0b56c-99cc-4491-9f18-288b76702508"  # App reg (federated)
-    env:
-      - name: AZURE_TENANT_ID
-        value: "9ffc6712-5ed6-4651-9b81-51f454114654"
-      - name: AZURE_SUBSCRIPTION_ID
-        value: "ec0e829d-64e1-43fd-b721-ecf5b5112773"
-   #   - name: AZURE_CLIENT_ID
-    #    value: "<EXTERNAL_DNS_APP_CLIENT_ID>"
-    extraArgs:
-      - --azure-resource-group=ihsen
-      # - --domain-filter=<example.com>   # optionnel si tu veux limiter
+    # Identifiant TXT unique par cluster pour éviter les conflits
+    txtOwnerId: "aks-staging-01"
+
+    # IMPORTANT: label sur le Pod (depuis WI >= 1.0.0, le label doit être sur le Pod)
+    podLabels:
+      azure.workload.identity/use: "true"
+
+    # Monte le Secret contenant /etc/kubernetes/azure.json
+    extraVolumes:
+      - name: azure-config-file
+        secret:
+          secretName: external-dns-azure
+    extraVolumeMounts:
+      - name: azure-config-file
+        mountPath: /etc/kubernetes
+        readOnly: true
+
+    # Provider ExternalDNS (nouvelle convention du chart)
+    provider:
+      name: azure
+    sources:
+      - ingress
+
+    # Conserve quelques flags utiles
+    registry: txt
+    policy: sync
+
+    # (Optionnel) Si tu veux filtrer un domaine :
+    # extraArgs:
+    #   - --domain-filter=example.com
+
+    # (Optionnel) Si tu utilises Azure Private DNS :
+    # extraArgs:
+    #   - --azure-use-private-dns
