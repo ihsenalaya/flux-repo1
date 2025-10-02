@@ -5,7 +5,7 @@ metadata:
   namespace: external-dns
 spec:
   values:
-    txtOwnerId: "<staging-cluster-name>"
+    txtOwnerId: "demo-aks-private"
     serviceAccount:
       annotations:
         azure.workload.identity/client-id: "02b0b56c-99cc-4491-9f18-288b76702508"  # App reg (federated)
