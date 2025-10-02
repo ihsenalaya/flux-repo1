@@ -5,11 +5,11 @@ metadata:
   namespace: external-dns
 spec:
   values:
-    # 🔒 Label WI sur le POD (obligatoire pour l’injection du jeton)
+    # Label requis sur le POD pour le webhook WI
     podLabels:
       azure.workload.identity/use: "true"
 
-    # 🔧 Monte le Secret à /etc/kubernetes pour le fichier azure.json
+    # Monter le Secret qui contient azure.json à l'emplacement attendu
     extraVolumes:
       - name: azure-config-file
         secret:
@@ -19,17 +19,14 @@ spec:
         mountPath: /etc/kubernetes
         readOnly: true
 
-    # (optionnel mais explicite) précise le chemin si tu veux :
-    extraArgs:
-      - --azure-config-file=/etc/kubernetes/azure.json
-      # - --domain-filter=<example.com>
-      # - --azure-use-private-dns
-
-    provider:
-      name: "azure"
-    sources:
-      - ingress
-
+    # Sources et stratégie
+    sources: ["ingress"]
     registry: txt
     policy: sync
-    txtOwnerId: "demo-aks-private"
+    txtOwnerId: "aks-staging-01"
+
+    # (Optionnel) restreindre à un domaine ou gérer Private DNS
+    # extraArgs:
+    #   - --domain-filter=example.com
+    #   - --azure-use-private-dns
+    #   - --azure-config-file=/etc/kubernetes/azure.json  # explicite si tu veux
