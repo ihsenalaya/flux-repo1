@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ../../../../base/platform/external-dns
   - sa.yaml
+  - secret-azure.yaml  
 
 # Patch StrategicMerge (obligatoire) pour surcharger le HelmRelease
 patchesStrategicMerge:
