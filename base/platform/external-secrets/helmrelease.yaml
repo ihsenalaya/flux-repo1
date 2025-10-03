@@ -8,19 +8,28 @@ spec:
   chart:
     spec:
       chart: external-secrets
+      # garde une contrainte large mais raisonnable
       version: ">=0.9.0"
       sourceRef:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
   install:
-    remediation:
-      retries: 3
+    timeout: 10m
+    remediation: { retries: 3 }
   upgrade:
-    remediation:
-      retries: 3
+    timeout: 10m
+    remediation: { retries: 3 }
   values:
+    # 👉 installe les CRDs (obligatoire avant d'appliquer ClusterSecretStore/ExternalSecret)
     installCRDs: true
+
+    # 👉 on va gérer le ServiceAccount en overlay (pour ajouter les labels/annotations WI)
     serviceAccount:
-      create: false          # ⬅️ change
-      name: external-secrets # ⬅️ use SA créé en overlay
+      create: false
+      name: external-secrets
+
+    # (optionnel) metrics/webhook si tu veux les activer/adapter ensuite
+    # controller:
+    #   logLevel: info
+
