@@ -7,4 +7,3 @@ metadata:
     azure.workload.identity/client-id: "02b0b56c-99cc-4491-9f18-288b76702508"
   labels:
     azure.workload.identity/use: "true"
-automountServiceAccountToken: true
