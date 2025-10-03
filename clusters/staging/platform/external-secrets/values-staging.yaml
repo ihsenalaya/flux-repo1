@@ -7,4 +7,4 @@ spec:
   values:
     serviceAccount:
       annotations:
-        azure.workload.identity/client-id: ""  # App reg (federated) pour ESO controller
+        azure.workload.identity/client-id: "492e2e88-e3ec-4b54-bf5c-b267e0edc9e4"  # App reg (federated) pour ESO controller
