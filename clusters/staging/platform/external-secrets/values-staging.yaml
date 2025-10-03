@@ -1,8 +1,10 @@
-# Minimal values. Chart installs CRDs by default; keeping it explicit.
-installCRDs: true
-# (Optional) controller settings
-metrics:
-  serviceMonitor:
-    enabled: false
-webhook:
-  port: 10250
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: external-secrets
+  namespace: external-secrets
+spec:
+  values:
+    serviceAccount:
+      annotations:
+        azure.workload.identity/client-id: ""  # App reg (federated) pour ESO controller

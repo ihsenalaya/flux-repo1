@@ -1,20 +1,30 @@
-# base/platform/external-secrets/helmrelease.yaml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: external-secrets
-  namespace: external-secrets
+  name: external-dns
+  namespace: external-dns
 spec:
+  interval: 10m
   chart:
     spec:
-      chart: external-secrets
-      # version: ">=0.9.0"   # ta contrainte si tu en as une
+      chart: external-dns
+      version: ">=1.14.0"
       sourceRef:
         kind: HelmRepository
-        name: external-secrets
+        name: external-dns
         namespace: flux-system
+  install:
+    timeout: 10m
+    remediation: { retries: 3 }
+  upgrade:
+    timeout: 10m
+    remediation: { retries: 3 }
   values:
-    installCRDs: true           # ⬅️ IMPORTANT
+    # IMPORTANT: on laisse le SA géré en overlay (Workload Identity)
     serviceAccount:
       create: false
-      name: external-secrets
+      name: external-dns
+
+    # Provider (syntaxe recommandée par le chart)
+    provider:
+      name: azure  # (ancien "provider: azure" est déprécié)

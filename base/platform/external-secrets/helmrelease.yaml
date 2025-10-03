@@ -4,24 +4,23 @@ metadata:
   name: external-secrets
   namespace: external-secrets
 spec:
-  interval: 15m
+  interval: 10m
   chart:
     spec:
       chart: external-secrets
-      version: ">=0.10.0 <1.0.0"   # let Flux pick the latest compatible
+      version: ">=0.9.0"
       sourceRef:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
   install:
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    crds: CreateReplace
     remediation:
       retries: 3
   values:
     installCRDs: true
-    # (optional) controller tweaks
-    replicaCount: 1
+    serviceAccount:
+      create: false          # ⬅️ change
+      name: external-secrets # ⬅️ use SA créé en overlay
