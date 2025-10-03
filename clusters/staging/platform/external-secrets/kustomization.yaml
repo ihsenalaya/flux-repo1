@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - ../../../../base/platform/external-secrets
   - sa.yaml                                  # ⬅️ ajoute le SA
-  - clustersecretstore-azure.yaml
 patches:
   - path: values-staging.yaml
     target:

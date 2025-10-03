@@ -8,8 +8,8 @@ spec:
   prune: true
   wait: true
   timeout: 5m
-  dependsOn:
-    - name: traefik-staging
+  #dependsOn:
+   # - name: traefik-staging
   sourceRef:
     kind: GitRepository
     name: flux-system
