@@ -1,10 +1,13 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: external-secrets
   namespace: external-secrets
 spec:
   values:
+    podLabels:
+      azure.workload.identity/use: "true"
     serviceAccount:
-      annotations:
-        azure.workload.identity/client-id: "492e2e88-e3ec-4b54-bf5c-b267e0edc9e4"  # App reg (federated) pour ESO controller
+      create: false
+      name: external-secrets
+
