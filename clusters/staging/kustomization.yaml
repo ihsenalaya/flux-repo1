@@ -6,5 +6,5 @@ resources:
   - kustomizations/cert-manager.yaml
   - kustomizations/cert-issuers.yaml
   - kustomizations/external-dns.yaml
-  - kustomizations/external-secrets.yaml           # contrôleur + CRDs
-  - kustomizations/external-secrets-stores.yaml    # stores/objets (après)
+  - kustomizations/external-secrets.yaml          # (contrôleur + CRDs)
+  - kustomizations/external-secrets-stores.yaml   # (stores/objets après)
