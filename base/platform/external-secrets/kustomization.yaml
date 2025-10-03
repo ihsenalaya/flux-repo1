@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - ../../namespaces/external-secrets.yaml
   - ../../flux/helmrepositories/external-secrets.yaml
+  - ../../flux/helmrepositories/external-dns.yaml
   - helmrelease.yaml
