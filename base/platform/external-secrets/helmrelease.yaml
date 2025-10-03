@@ -4,31 +4,24 @@ metadata:
   name: external-secrets
   namespace: external-secrets
 spec:
-  interval: 10m
+  interval: 15m
   chart:
     spec:
       chart: external-secrets
-      version: ">=0.9.0"
+      version: ">=0.10.0 <1.0.0"   # let Flux pick the latest compatible
       sourceRef:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
-
-  # 👉 GARANTIT l’installation & mise à jour des CRDs depuis le chart
   install:
-    crds: Create         # <— IMPORTANT
-    timeout: 10m
-    remediation: { retries: 3 }
+    crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
-    crds: CreateReplace  # <— IMPORTANT
-    timeout: 10m
-    remediation: { retries: 3 }
-
+    crds: CreateReplace
+    remediation:
+      retries: 3
   values:
-    # 👉 Installe aussi les CRDs via les valeurs du chart (double sécurité)
     installCRDs: true
-
-    # Le ServiceAccount est géré en overlay (Workload Identity)
-    serviceAccount:
-      create: false
-      name: external-secrets
+    # (optional) controller tweaks
+    replicaCount: 1
