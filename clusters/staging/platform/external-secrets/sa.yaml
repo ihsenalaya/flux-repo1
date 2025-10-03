@@ -4,6 +4,6 @@ metadata:
   name: external-secrets
   namespace: external-secrets
   annotations:
-    azure.workload.identity/client-id: "<ESO_APP_CLIENT_ID>"
+    azure.workload.identity/client-id: "492e2e88-e3ec-4b54-bf5c-b267e0edc9e4"
   labels:
     azure.workload.identity/use: "true"
