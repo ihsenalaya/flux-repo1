@@ -5,5 +5,6 @@ metadata:
   namespace: external-secrets
   annotations:
     azure.workload.identity/client-id: "492e2e88-e3ec-4b54-bf5c-b267e0edc9e4"
+    azure.workload.identity/tenant-id: "9ffc6712-5ed6-4651-9b81-51f454114654"
   labels:
     azure.workload.identity/use: "true"
