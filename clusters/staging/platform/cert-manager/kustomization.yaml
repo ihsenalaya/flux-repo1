@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../../../base/platform/cert-manager
- # - clusterissuers.yaml
+#   # - clusterissuers.yaml
 
 # # Patch StrategicMerge (obligatoire) pour surcharger le HelmRelease
 # patchesStrategicMerge:

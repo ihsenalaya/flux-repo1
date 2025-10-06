@@ -1,13 +1,13 @@
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: cert-manager
-  namespace: cert-manager
-spec:
-  values:
-    # Label requis sur le POD pour le webhook WI
-    podLabels:
-      azure.workload.identity/use: "true"
-    serviceAccount:
-      labels:
-        azure.workload.identity/use: "true"
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: cert-manager
+#   namespace: cert-manager
+# spec:
+#   values:
+#     # Label requis sur le POD pour le webhook WI
+#     podLabels:
+#       azure.workload.identity/use: "true"
+#     serviceAccount:
+#       labels:
+#         azure.workload.identity/use: "true"
