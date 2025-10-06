@@ -1,14 +1,14 @@
-/*
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: external-secrets
-  namespace: external-secrets
-  annotations:
-    azure.workload.identity/client-id: "<ESO_APP_CLIENT_ID>"
-  labels:
-    azure.workload.identity/use: "true"
-*/
+
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: external-secrets
+#   namespace: external-secrets
+#   annotations:
+#     azure.workload.identity/client-id: "<ESO_APP_CLIENT_ID>"
+#   labels:
+#     azure.workload.identity/use: "true"
+
 ---
 apiVersion: v1
 kind: ServiceAccount
