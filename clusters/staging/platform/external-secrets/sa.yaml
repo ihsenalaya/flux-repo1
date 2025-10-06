@@ -20,16 +20,38 @@ metadata:
     azure.workload.identity/client-id: 02b0b56c-99cc-4491-9f18-288b76702508
     azure.workload.identity/tenant-id: 9ffc6712-5ed6-4651-9b81-51f454114654
 ---
+# apiVersion: external-secrets.io/v1
+# kind: SecretStore
+# metadata:
+#   name: example-secret-store
+#   namespace: external-secrets
+# spec:
+#   provider:
+#     azurekv:
+#       authType: WorkloadIdentity
+#       vaultUrl: "https://kvp-demo-001.vault.azure.net/"
+#       serviceAccountRef:
+#         name: external-secrets-sa
+      # note: no serviceAccountRef was provided
+
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
-  name: example-secret-store
-  namespace: external-secrets
+  name: azure-store
 spec:
   provider:
     azurekv:
+      # tenantId spec option #1
+      tenantId: "9ffc6712-5ed6-4651-9b81-51f454114654"
       authType: WorkloadIdentity
       vaultUrl: "https://kvp-demo-001.vault.azure.net/"
       serviceAccountRef:
-        name: external-secrets-sa
-      # note: no serviceAccountRef was provided
+        name: external-secrets-s
+      authSecretRef:
+        clientId:
+          name: umi-secret
+          key: "02b0b56c-99cc-4491-9f18-288b76702508"
+        # tenantId spec option #2
+        tenantId:
+          name: umi-secret
+          key: "9ffc6712-5ed6-4651-9b81-51f454114654"
