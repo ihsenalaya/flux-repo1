@@ -24,6 +24,7 @@ apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
   name: example-secret-store
+  namespace: external-secrets
 spec:
   provider:
     azurekv:
