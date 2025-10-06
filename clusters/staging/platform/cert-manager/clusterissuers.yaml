@@ -4,12 +4,18 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: "e7seno@gmail.com"
     server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: e7seno@gmail.com
+    profile: tlsserver
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-      - http01:
-          ingress:
-            class: traefik
+    - dns01:
+        azureDNS:
+          resourceGroupName: ihsen
+          subscriptionID: ec0e829d-64e1-43fd-b721-ecf5b5112773
+          hostedZoneName: ihsenalaya.xyz
+          environment: AzurePublicCloud
+          managedIdentity:
+            clientID: 02b0b56c-99cc-4491-9f18-288b76702508
 
