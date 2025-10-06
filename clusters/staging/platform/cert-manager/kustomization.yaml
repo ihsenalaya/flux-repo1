@@ -5,17 +5,13 @@ resources:
   - ../../../../base/platform/cert-manager
  # - clusterissuers.yaml
 
-# Patch StrategicMerge (obligatoire) pour surcharger le HelmRelease
-patchesStrategicMerge:
-  - values-staging.yaml
+# # Patch StrategicMerge (obligatoire) pour surcharger le HelmRelease
+# patchesStrategicMerge:
+#   - values-staging.yaml
 
-# Générer le Secret à partir du fichier azure.json du repo
-#secretGenerator:
-#  - name: external-dns-azure
-#    files:
- #     - azure.json=./secrets/azure.json
+# # Pour éviter d'avoir un suffixe aléatoire sur le nom des ressources
 
-generatorOptions:
-  disableNameSuffixHash: true
+# generatorOptions:
+#   disableNameSuffixHash: true
 
-namespace: cert-manager
+# namespace: cert-manager
