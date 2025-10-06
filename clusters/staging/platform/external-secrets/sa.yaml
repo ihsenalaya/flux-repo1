@@ -30,4 +30,6 @@ spec:
     azurekv:
       authType: WorkloadIdentity
       vaultUrl: "https://kvp-demo-001.vault.azure.net/"
+      serviceAccountRef:
+        name: external-secrets-sa
       # note: no serviceAccountRef was provided
