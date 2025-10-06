@@ -19,7 +19,7 @@ metadata:
     azure.workload.identity/client-id: 02b0b56c-99cc-4491-9f18-288b76702508
     azure.workload.identity/tenant-id: 9ffc6712-5ed6-4651-9b81-51f454114654
 ---
-apiVersion: external-secrets.io/v1beta1
+apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
   name: example-secret-store
